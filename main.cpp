@@ -53,25 +53,29 @@ void scan_file(const std::string& path) {
 
 
 int main(int argc, char* argv[]) {
-  if (argc != 2) {
+  if (argc < 2) {
     std::cerr << "Usage: " << argv[0] << " <file_name>" << std::endl;
     return EXIT_FAILURE;
   }
 
-  if (!std::filesystem::exists(argv[1])) {
-    std::cerr << "File not found: " << argv[1] << std::endl;
-    return EXIT_FAILURE;
+  for (int i = 1; i < argc; i++) {
+    if (!std::filesystem::exists(argv[i])) {
+      std::cerr << "File not found: " << argv[i] << std::endl;
+      return EXIT_FAILURE;
+    }
   }
 
-  if (!std::filesystem::is_directory(argv[1])) {
-    scan_file(argv[1]);
-    return EXIT_SUCCESS;
-  }
+  for (int i = 1; i < argc; i++) {
+    if (!std::filesystem::is_directory(argv[1])) {
+      scan_file(argv[1]);
+      return EXIT_SUCCESS;
+    }
 
-  for (const auto& entry : std::filesystem::recursive_directory_iterator(argv[1])) {
-      if (std::filesystem::is_regular_file(entry)) {
-        scan_file(entry.path().string());
-      }
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(argv[1])) {
+        if (std::filesystem::is_regular_file(entry)) {
+          scan_file(entry.path().string());
+        }
+    }
   }
   
   return 0;
