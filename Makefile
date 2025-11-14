@@ -7,10 +7,10 @@ zhconvert: main.cpp
 	$(CXX) $(CXXFLAGS) -o zhconvert main.cpp
 
 clean:
-	rm -f main
+	rm -f zhconvert
 
 install:
-	cp main /usr/local/bin/zhconvert
+	cp zhconvert /usr/local/bin/zhconvert
 
 uninstall:
 	rm -f /usr/local/bin/zhconvert
