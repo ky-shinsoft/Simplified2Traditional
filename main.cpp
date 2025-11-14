@@ -27,16 +27,22 @@ void scan_file(const std::string& path) {
   unsigned int count = 0;
   while (std::getline(fin, line)) {
     count++;
-    std::string converted = opencc_convert_utf8(converter, line.c_str(), line.size());
-    fout << converted << "\n";
 
-    if (line == converted) {
-      continue;
+    try {
+      std::string converted = opencc_convert_utf8(converter, line.c_str(), line.size());
+      fout << converted << "\n";
+      if (line == converted) {
+        continue;
+      }
+
+      std::cout << "Line "<< count << ':' << std::endl;
+      std::cout << "\033[1;31m" << "-" << line << "\033[0m" << std::endl;
+      std::cout << "\033[1;32m" << "+" << converted << "\033[0m" << std::endl;
     }
-
-    std::cout << "Line "<< count << ':' << std::endl;
-    std::cout << "\033[1;31m" << "-" << line << "\033[0m" << std::endl;
-    std::cout << "\033[1;32m" << "+" << converted << "\033[0m" << std::endl;
+    catch (const std::exception& e) {
+      std::cerr << "Error converting line " << count << ": " << e.what() << std::endl;
+      fout << line << "\n";
+    }
   }
 
   opencc_close(converter);
