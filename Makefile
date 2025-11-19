@@ -9,7 +9,7 @@ zhconvert: main.cpp
 clean:
 	rm -f zhconvert
 
-install:
+install: zhconvert
 	cp zhconvert /usr/local/bin/zhconvert
 
 uninstall:
