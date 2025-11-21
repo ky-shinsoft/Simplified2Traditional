@@ -30,7 +30,8 @@ void scan_file(const std::string& path) {
 
     try {
       std::string converted = opencc_convert_utf8(converter, line.c_str(), line.size());
-      fout << converted << "\n";
+      fout << converted << (fin.good() ? "\n" : "");
+
       if (line == converted) {
         continue;
       }
