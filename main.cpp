@@ -67,12 +67,12 @@ int main(int argc, char* argv[]) {
   }
 
   for (int i = 1; i < argc; i++) {
-    if (!std::filesystem::is_directory(argv[1])) {
-      scan_file(argv[1]);
+    if (!std::filesystem::is_directory(argv[i])) {
+      scan_file(argv[i]);
       return EXIT_SUCCESS;
     }
 
-    for (const auto& entry : std::filesystem::recursive_directory_iterator(argv[1])) {
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(argv[i])) {
         if (std::filesystem::is_regular_file(entry)) {
           scan_file(entry.path().string());
         }
